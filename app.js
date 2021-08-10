@@ -1,5 +1,3 @@
-'use strict';
-
 
 let galaryArray = [
   'bag.jpg',
@@ -23,7 +21,6 @@ let galaryArray = [
   'wine-glass.jpg'
 
 ];
-let allclike = [];
 let allImg = [];
 let counter = 0;
 let Round = 25;
@@ -33,22 +30,20 @@ let image1 = document.getElementById('image1');
 let image2 = document.getElementById('image2');
 let image3 = document.getElementById('image3');
 
-function ImgSrc(name, srcOfImg) {
+function ImgSrc(name, srcOfImg , show = 0 ,timeClike = 0) {
 
   this.name = name;
   this.img = `./img/${srcOfImg}`;
-  this.show = 0;
-  this.timeClike = 0;
+  this.show = show;
+  this.timeClike = timeClike;
   ImgSrc.allImg.push(this);
-  ImgSrc.allclike.push(this);
 }
 
 ImgSrc.allImg = [];
-ImgSrc.allclike = [];
-
-for (let i = 0; i < galaryArray.length; i++) {
-  new ImgSrc(galaryArray[i].split('.')[0], galaryArray[i]);
+for(let i=0 ; i<galaryArray.length ; i++){
+  new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
 }
+getData();
 
 
 
@@ -85,6 +80,10 @@ function render() {
 
   console.log(ImgSrc.allImg);
 
+   localStorage.data = JSON.stringify( ImgSrc.allImg );
+console.log(ImgSrc.allImg);
+  //let data = JSON.stringify( ImgSrc.allImg );
+  //localStorage.setItem('product',data);
 }
 render();
 
@@ -92,19 +91,18 @@ sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
-      //ImgSrc.allImg[image1random].timeClike++;
-      ImgSrc.allclike[image1random].timeClike++;
+      ImgSrc.allImg[image1random].timeClike++;
+      // ImgSrc.allclike[image1random].timeClike++;
       console.log(ImgSrc.allclike);
     }
     else if (e.target.id === 'image2') {
-      // ImgSrc.allImg[image2random].timeClike++;
-      ImgSrc.allclike[image2random].timeClike++;
+      ImgSrc.allImg[image2random].timeClike++;
+      // ImgSrc.allclike[image2random].timeClike++;
     }
     else if (e.target.id === 'image3') {
-      // ImgSrc.allImg[image3random].timeClike++;
-      ImgSrc.allclike[image3random].timeClike++;
+      ImgSrc.allImg[image3random].timeClike++;
+      // ImgSrc.allclike[image3random].timeClike++;
     }
-
     render();
     counter++;
   }
@@ -112,6 +110,7 @@ function clickOnimg(e) {
     createChart();
 
   }
+
 }
 
 if (counter >= Round) {
@@ -132,7 +131,7 @@ function clickOnButton() {
   for (let i = 0; i < galaryArray.length; i++) {
 
     let li = document.createElement('li');
-    li.textContent = `- ${ImgSrc.allclike[i].name} had ${ImgSrc.allclike[i].timeClike} votes, and ${ImgSrc.allclike[i].show} was seen times.`;
+    li.textContent = `- ${ImgSrc.allImg[i].name} had ${ImgSrc.allImg[i].timeClike} votes, and ${ImgSrc.allImg[i].show} was seen times.`;
     ul.appendChild(li);
 
   }
@@ -140,9 +139,11 @@ function clickOnButton() {
 }
 
 
-
-
-
+/*
+ImgSrc.prototype.getName = function() {
+  console.log('test');
+};
+*/
 // createChart();
 function createChart() {
 
@@ -153,7 +154,7 @@ function createChart() {
   for(let i = 0; i < galaryArray.length; i++) {
     nameArr.push(ImgSrc.allImg [i].name);
     shownArr.push(ImgSrc.allImg[i].show);
-    clickArr.push(ImgSrc.allclike[i].timeClike);
+    clickArr.push(ImgSrc.allImg[i].timeClike);
   }
   let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
 
@@ -217,3 +218,37 @@ function createChart() {
     }
   } );
 }
+
+
+/*
+function getData() {
+  let data1=localStorage.getItem('product');
+  if( data1 ) {
+    let data = JSON.parse(data1 );
+    for( let i = 0; i < data.length; i++ ) {
+      new ImgSrc( data[i].name, data[i].show ,data[i].timeClike );
+      console.log(data);
+    }
+  } else {
+    for( let i = 0; i < galaryArray.length; i++ ) {
+      new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
+    }
+  }
+}
+*/
+
+
+function getData() {
+  if( localStorage.data ) {
+    let data = JSON.parse( localStorage.data );
+    for( let i = 0; i < data.length; i++ ) {
+      new ImgSrc( data[i].name, data[i].show ,data[i].timeClike);
+    }
+  } else {
+    for( let i = 0; i <galaryArray.length; i++ ) {
+      new ImgSrc(galaryArray[i].split( '.' )[0], galaryArray[i]);
+    }
+  }
+}
+
+
