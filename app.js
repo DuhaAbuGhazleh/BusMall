@@ -1,5 +1,6 @@
 'use strict';
 
+
 let galaryArray = [
   'bag.jpg',
   'banana.jpg',
@@ -22,6 +23,7 @@ let galaryArray = [
   'wine-glass.jpg'
 
 ];
+let allclike = [];
 let allImg = [];
 let counter = 0;
 let Round = 25;
@@ -35,21 +37,19 @@ function ImgSrc(name, srcOfImg) {
 
   this.name = name;
   this.img = `./img/${srcOfImg}`;
-  //this.img=srcOfImg;
   this.show = 0;
   this.timeClike = 0;
   ImgSrc.allImg.push(this);
+  ImgSrc.allclike.push(this);
 }
-localStorage.data = JSON.stringify( galaryArray);
 
 ImgSrc.allImg = [];
+ImgSrc.allclike = [];
 
-getData();
-/*
 for (let i = 0; i < galaryArray.length; i++) {
   new ImgSrc(galaryArray[i].split('.')[0], galaryArray[i]);
 }
-*/
+
 
 
 
@@ -63,13 +63,11 @@ let image3random;
 
 function render() {
 
-  getData();
-
   image1random = getRandomNumber(0, galaryArray.length - 1);
   image2random = getRandomNumber(0, galaryArray.length - 1);
   image3random = getRandomNumber(0, galaryArray.length - 1);
 
-  console.log(image1random);
+
   do {
     image1random = getRandomNumber(0, galaryArray.length - 1);
     image2random = getRandomNumber(0, galaryArray.length - 1);
@@ -81,52 +79,45 @@ function render() {
   image2.src = ImgSrc.allImg[image2random].img;
   image3.src = ImgSrc.allImg[image3random].img;
 
-  // image1.src = `img/${ImgSrc.allImg[image1random].img} `;
-  // image2.src = `img/${ImgSrc.allImg[image2random].img} `;
-  // image3.src = `img/${ImgSrc.allImg[image3random].img}`;
-  // console.log(ImgSrc.allImg[image3random].img);
-  console.log(ImgSrc.allImg[image2random].img);
-
-
   ImgSrc.allImg[image1random].show++;
   ImgSrc.allImg[image2random].show++;
   ImgSrc.allImg[image3random].show++;
 
   console.log(ImgSrc.allImg);
 
-  // let data = JSON.stringify( ImgSrc.allImg );
-  //  localStorage.setItem('product',data);
-
-
 }
 render();
 
 sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
-  getData();
-
-
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
-      ImgSrc.allImg[image1random].timeClike++;
+      //ImgSrc.allImg[image1random].timeClike++;
+      ImgSrc.allclike[image1random].timeClike++;
       console.log(ImgSrc.allclike);
     }
     else if (e.target.id === 'image2') {
-      ImgSrc.allImg[image2random].timeClike++;
+      // ImgSrc.allImg[image2random].timeClike++;
+      ImgSrc.allclike[image2random].timeClike++;
     }
     else if (e.target.id === 'image3') {
-      ImgSrc.allImg[image3random].timeClike++;
+      // ImgSrc.allImg[image3random].timeClike++;
+      ImgSrc.allclike[image3random].timeClike++;
     }
+
     render();
     counter++;
   }
   else{
     createChart();
+
   }
 }
+
 if (counter >= Round) {
   sectionOfImg.removeEventListener('click', clickOnimg);
 }
+
 //console.log(ImgSrc.allImg);
 //clickOnimg();
 const showResult = document.getElementById('showResult');
@@ -141,7 +132,7 @@ function clickOnButton() {
   for (let i = 0; i < galaryArray.length; i++) {
 
     let li = document.createElement('li');
-    li.textContent = `- ${ImgSrc.allImg[i].name} had ${ImgSrc.allImg[i].timeClike} votes, and ${ImgSrc.allImg[i].show} was seen times.`;
+    li.textContent = `- ${ImgSrc.allclike[i].name} had ${ImgSrc.allclike[i].timeClike} votes, and ${ImgSrc.allclike[i].show} was seen times.`;
     ul.appendChild(li);
 
   }
@@ -162,7 +153,7 @@ function createChart() {
   for(let i = 0; i < galaryArray.length; i++) {
     nameArr.push(ImgSrc.allImg [i].name);
     shownArr.push(ImgSrc.allImg[i].show);
-    clickArr.push(ImgSrc.allImg[i].timeClike);
+    clickArr.push(ImgSrc.allclike[i].timeClike);
   }
   let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
 
@@ -226,43 +217,3 @@ function createChart() {
     }
   } );
 }
-
-/*
-function getData() {
-  let data1=localStorage.getItem('product');
-  if( data1 ) {
-    let data = JSON.parse(data1 );
-    for( let i = 0; i < data.length; i++ ) {
-      new ImgSrc( data[i].name, data[i].show ,data[i].timeClike );
-      console.log(data);
-    }
-  } else {
-    for( let i = 0; i < galaryArray.length; i++ ) {
-      new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
-    }
-  }
-}*/
-
-
-function getData() {
-  if( localStorage.data ) {
-    let data = JSON.parse( localStorage.data );
-    console.log(data);
-    for( let i = 0; i < data.length; i++ ) {
-     // new ImgSrc( data[i].name, data[i].show ,data[i].timeClike);
-
-      new ImgSrc(data[i].split('.')[0], data[i]);
-    }
-  } else {
-    console.log();
-    for( let i = 0; i <galaryArray.length; i++ ) {
-      new ImgSrc(galaryArray[i].split( '.' )[0], galaryArray[i]);
-
-
-    }
-  }
-
-}
-
-
-
