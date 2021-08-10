@@ -35,6 +35,7 @@ function ImgSrc(name, srcOfImg) {
 
   this.name = name;
   this.img = `./img/${srcOfImg}`;
+  //this.img=srcOfImg;
   this.show = 0;
   this.timeClike = 0;
   ImgSrc.allImg.push(this);
@@ -43,7 +44,7 @@ localStorage.data = JSON.stringify( galaryArray);
 
 ImgSrc.allImg = [];
 
-//getData();
+getData();
 /*
 for (let i = 0; i < galaryArray.length; i++) {
   new ImgSrc(galaryArray[i].split('.')[0], galaryArray[i]);
@@ -61,13 +62,14 @@ let image2random;
 let image3random;
 
 function render() {
+
   getData();
 
   image1random = getRandomNumber(0, galaryArray.length - 1);
   image2random = getRandomNumber(0, galaryArray.length - 1);
   image3random = getRandomNumber(0, galaryArray.length - 1);
 
-
+  console.log(image1random);
   do {
     image1random = getRandomNumber(0, galaryArray.length - 1);
     image2random = getRandomNumber(0, galaryArray.length - 1);
@@ -79,20 +81,31 @@ function render() {
   image2.src = ImgSrc.allImg[image2random].img;
   image3.src = ImgSrc.allImg[image3random].img;
 
+  // image1.src = `img/${ImgSrc.allImg[image1random].img} `;
+  // image2.src = `img/${ImgSrc.allImg[image2random].img} `;
+  // image3.src = `img/${ImgSrc.allImg[image3random].img}`;
+  // console.log(ImgSrc.allImg[image3random].img);
+  console.log(ImgSrc.allImg[image2random].img);
+
+
   ImgSrc.allImg[image1random].show++;
   ImgSrc.allImg[image2random].show++;
   ImgSrc.allImg[image3random].show++;
 
   console.log(ImgSrc.allImg);
 
-  //localStorage.setItem('product',data);
+  // let data = JSON.stringify( ImgSrc.allImg );
+  //  localStorage.setItem('product',data);
+
 
 }
 render();
 
 sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
-  getData() ;
+  getData();
+
+
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
       ImgSrc.allImg[image1random].timeClike++;
@@ -104,20 +117,16 @@ function clickOnimg(e) {
     else if (e.target.id === 'image3') {
       ImgSrc.allImg[image3random].timeClike++;
     }
-
     render();
     counter++;
   }
   else{
     createChart();
-
   }
 }
-
 if (counter >= Round) {
   sectionOfImg.removeEventListener('click', clickOnimg);
 }
-
 //console.log(ImgSrc.allImg);
 //clickOnimg();
 const showResult = document.getElementById('showResult');
@@ -232,15 +241,15 @@ function getData() {
       new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
     }
   }
-}
-*/
+}*/
+
 
 function getData() {
   if( localStorage.data ) {
     let data = JSON.parse( localStorage.data );
     console.log(data);
     for( let i = 0; i < data.length; i++ ) {
-      //    new ImgSrc( data[i].name, data[i].show ,data[i].timeClike);
+     // new ImgSrc( data[i].name, data[i].show ,data[i].timeClike);
 
       new ImgSrc(data[i].split('.')[0], data[i]);
     }
@@ -248,11 +257,12 @@ function getData() {
     console.log();
     for( let i = 0; i <galaryArray.length; i++ ) {
       new ImgSrc(galaryArray[i].split( '.' )[0], galaryArray[i]);
-      // new ImgSrc( galaryArray[i].name,galaryArray[i].show ,galaryArray[i].timeClike);
 
 
     }
   }
 
 }
+
+
 
