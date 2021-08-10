@@ -1,5 +1,6 @@
 'use strict';
 
+
 let galaryArray = [
   'bag.jpg',
   'banana.jpg',
@@ -22,6 +23,7 @@ let galaryArray = [
   'wine-glass.jpg'
 
 ];
+let allclike = [];
 let allImg = [];
 let counter = 0;
 let Round = 25;
@@ -38,17 +40,16 @@ function ImgSrc(name, srcOfImg) {
   this.show = 0;
   this.timeClike = 0;
   ImgSrc.allImg.push(this);
+  ImgSrc.allclike.push(this);
 }
-localStorage.data = JSON.stringify( galaryArray);
 
 ImgSrc.allImg = [];
+ImgSrc.allclike = [];
 
-//getData();
-/*
 for (let i = 0; i < galaryArray.length; i++) {
   new ImgSrc(galaryArray[i].split('.')[0], galaryArray[i]);
 }
-*/
+
 
 
 
@@ -61,7 +62,6 @@ let image2random;
 let image3random;
 
 function render() {
-  getData();
 
   image1random = getRandomNumber(0, galaryArray.length - 1);
   image2random = getRandomNumber(0, galaryArray.length - 1);
@@ -85,37 +85,34 @@ function render() {
 
   console.log(ImgSrc.allImg);
 
-  //localStorage.setItem('product',data);
-
 }
 render();
 
 sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
-<<<<<<< HEAD
-
-=======
-  getData() ;
->>>>>>> 13d9870083a12c780d7a141da5b660b0842e97e6
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
-      ImgSrc.allImg[image1random].timeClike++;
+      //ImgSrc.allImg[image1random].timeClike++;
+      ImgSrc.allclike[image1random].timeClike++;
       console.log(ImgSrc.allclike);
     }
     else if (e.target.id === 'image2') {
-      ImgSrc.allImg[image2random].timeClike++;
+      // ImgSrc.allImg[image2random].timeClike++;
+      ImgSrc.allclike[image2random].timeClike++;
     }
     else if (e.target.id === 'image3') {
-      ImgSrc.allImg[image3random].timeClike++;
+      // ImgSrc.allImg[image3random].timeClike++;
+      ImgSrc.allclike[image3random].timeClike++;
     }
+
     render();
     counter++;
   }
   else{
     createChart();
+
   }
 }
-
 
 if (counter >= Round) {
   sectionOfImg.removeEventListener('click', clickOnimg);
@@ -135,12 +132,12 @@ function clickOnButton() {
   for (let i = 0; i < galaryArray.length; i++) {
 
     let li = document.createElement('li');
-    li.textContent = `- ${ImgSrc.allImg[i].name} had ${ImgSrc.allImg[i].timeClike} votes, and ${ImgSrc.allImg[i].show} was seen times.`;
+    li.textContent = `- ${ImgSrc.allclike[i].name} had ${ImgSrc.allclike[i].timeClike} votes, and ${ImgSrc.allclike[i].show} was seen times.`;
     ul.appendChild(li);
 
   }
-}
 
+}
 
 
 
@@ -156,7 +153,7 @@ function createChart() {
   for(let i = 0; i < galaryArray.length; i++) {
     nameArr.push(ImgSrc.allImg [i].name);
     shownArr.push(ImgSrc.allImg[i].show);
-    clickArr.push(ImgSrc.allImg[i].timeClike);
+    clickArr.push(ImgSrc.allclike[i].timeClike);
   }
   let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
 
@@ -220,42 +217,3 @@ function createChart() {
     }
   } );
 }
-
-/*
-function getData() {
-  let data1=localStorage.getItem('product');
-  if( data1 ) {
-    let data = JSON.parse(data1 );
-    for( let i = 0; i < data.length; i++ ) {
-      new ImgSrc( data[i].name, data[i].show ,data[i].timeClike );
-      console.log(data);
-    }
-  } else {
-    for( let i = 0; i < galaryArray.length; i++ ) {
-      new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
-    }
-  }
-}
-*/
-
-function getData() {
-  if( localStorage.data ) {
-    let data = JSON.parse( localStorage.data );
-    console.log(data);
-    for( let i = 0; i < data.length; i++ ) {
-      //    new ImgSrc( data[i].name, data[i].show ,data[i].timeClike);
-
-      new ImgSrc(data[i].split('.')[0], data[i]);
-    }
-  } else {
-    console.log();
-    for( let i = 0; i <galaryArray.length; i++ ) {
-      new ImgSrc(galaryArray[i].split( '.' )[0], galaryArray[i]);
-      // new ImgSrc( galaryArray[i].name,galaryArray[i].show ,galaryArray[i].timeClike);
-
-
-    }
-  }
-
-}
-
