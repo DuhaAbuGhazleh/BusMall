@@ -90,6 +90,7 @@ render();
 
 sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
+
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
       //ImgSrc.allImg[image1random].timeClike++;
@@ -104,15 +105,14 @@ function clickOnimg(e) {
       // ImgSrc.allImg[image3random].timeClike++;
       ImgSrc.allclike[image3random].timeClike++;
     }
-
     render();
     counter++;
   }
   else{
     createChart();
-
   }
 }
+
 
 if (counter >= Round) {
   sectionOfImg.removeEventListener('click', clickOnimg);
@@ -136,8 +136,8 @@ function clickOnButton() {
     ul.appendChild(li);
 
   }
-
 }
+
 
 
 
@@ -206,7 +206,7 @@ function createChart() {
         ],
         borderWidth: 2
       }]
-      
+
     },
     options: {
       scales: {
