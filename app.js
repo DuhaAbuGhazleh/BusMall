@@ -41,9 +41,9 @@ function ImgSrc(name, srcOfImg , show = 0 ,timeClike = 0) {
 }
 
 ImgSrc.allImg = [];
-//for(let i=0 ; i<galaryArray.length ; i++){
-// new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
-//}
+/*for(let i=0 ; i<galaryArray.length ; i++){
+new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
+}*/
 
 getData();
 
@@ -88,10 +88,10 @@ function render() {
 
   console.log(ImgSrc.allImg);
 
-  localStorage.data = JSON.stringify( ImgSrc.allImg );
+  //localStorage.data = JSON.stringify( ImgSrc.allImg );
   console.log(ImgSrc.allImg);
-  //let data = JSON.stringify( ImgSrc.allImg );
-  //localStorage.setItem('product',data);
+  let data = JSON.stringify( ImgSrc.allImg );
+  localStorage.setItem('product',data);
 }
 render();
 
@@ -230,13 +230,13 @@ function createChart() {
 }
 
 
-/*
+
 function getData() {
   let data1=localStorage.getItem('product');
   if( data1 ) {
     let data = JSON.parse(data1 );
     for( let i = 0; i < data.length; i++ ) {
-      new ImgSrc( data[i].name, data[i].show ,data[i].timeClike );
+      new ImgSrc( data[i].name, data[i].img, data[i].show ,data[i].timeClike );
       console.log(data);
     }
   } else {
@@ -245,8 +245,8 @@ function getData() {
     }
   }
 }
-*/
 
+/*
 
 function getData() {
   if( localStorage.data ) {
@@ -261,4 +261,4 @@ function getData() {
   }
 }
 
-
+*/
