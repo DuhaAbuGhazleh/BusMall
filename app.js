@@ -40,9 +40,10 @@ function ImgSrc(name, srcOfImg , show = 0 ,timeClike = 0) {
 }
 
 ImgSrc.allImg = [];
-for(let i=0 ; i<galaryArray.length ; i++){
-  new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
-}
+//for(let i=0 ; i<galaryArray.length ; i++){
+ // new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
+//}
+
 getData();
 
 
@@ -80,8 +81,8 @@ function render() {
 
   console.log(ImgSrc.allImg);
 
-   localStorage.data = JSON.stringify( ImgSrc.allImg );
-console.log(ImgSrc.allImg);
+  localStorage.data = JSON.stringify( ImgSrc.allImg );
+  console.log(ImgSrc.allImg);
   //let data = JSON.stringify( ImgSrc.allImg );
   //localStorage.setItem('product',data);
 }
@@ -89,6 +90,7 @@ render();
 
 sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
+  
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
       ImgSrc.allImg[image1random].timeClike++;
@@ -241,8 +243,8 @@ function getData() {
 function getData() {
   if( localStorage.data ) {
     let data = JSON.parse( localStorage.data );
-    for( let i = 0; i < data.length; i++ ) {
-      new ImgSrc( data[i].name, data[i].show ,data[i].timeClike);
+    for( let i = 0; i < galaryArray.length; i++ ) {
+      new ImgSrc( data[i].name, data[i].img , data[i].show ,data[i].timeClike);
     }
   } else {
     for( let i = 0; i <galaryArray.length; i++ ) {
