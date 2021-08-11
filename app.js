@@ -33,7 +33,8 @@ let image3 = document.getElementById('image3');
 function ImgSrc(name, srcOfImg , show = 0 ,timeClike = 0) {
 
   this.name = name;
-  this.img = `./img/${srcOfImg}`;
+  // this.img = `./img/${srcOfImg}`;
+  this.img=srcOfImg;
   this.show = show;
   this.timeClike = timeClike;
   ImgSrc.allImg.push(this);
@@ -41,7 +42,7 @@ function ImgSrc(name, srcOfImg , show = 0 ,timeClike = 0) {
 
 ImgSrc.allImg = [];
 //for(let i=0 ; i<galaryArray.length ; i++){
- // new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
+// new ImgSrc( galaryArray[i].split( '.' )[0], galaryArray[i] );
 //}
 
 getData();
@@ -71,9 +72,15 @@ function render() {
   } while (image1random === image2random || image1random === image3random || image3random === image2random || previousImg.includes(image1random) ||previousImg.includes(image2random)||previousImg.includes(image3random));
 
   previousImg=[image1random,image2random,image3random];
-  image1.src = ImgSrc.allImg[image1random].img;
-  image2.src = ImgSrc.allImg[image2random].img;
-  image3.src = ImgSrc.allImg[image3random].img;
+  // image1.src = ImgSrc.allImg[image1random].img;
+  // image2.src = ImgSrc.allImg[image2random].img;
+  // image3.src = ImgSrc.allImg[image3random].img;
+
+  image1.src =`./img/${ImgSrc.allImg[image1random].img}` ;
+  image2.src = `./img/${ImgSrc.allImg[image2random].img}` ;
+  image3.src = `./img/${ImgSrc.allImg[image3random].img}` ;
+
+
 
   ImgSrc.allImg[image1random].show++;
   ImgSrc.allImg[image2random].show++;
@@ -90,7 +97,8 @@ render();
 
 sectionOfImg.addEventListener('click', clickOnimg);
 function clickOnimg(e) {
-  
+  e.preventDefault();
+
   if ((e.target.id === 'image1' || e.target.id === 'image2' || e.target.id === 'image3') && counter < Round) {
     if (e.target.id === 'image1') {
       ImgSrc.allImg[image1random].timeClike++;
@@ -243,7 +251,7 @@ function getData() {
 function getData() {
   if( localStorage.data ) {
     let data = JSON.parse( localStorage.data );
-    for( let i = 0; i < galaryArray.length; i++ ) {
+    for( let i = 0; i < data.length; i++ ) {
       new ImgSrc( data[i].name, data[i].img , data[i].show ,data[i].timeClike);
     }
   } else {
